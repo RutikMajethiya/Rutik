@@ -1,0 +1,6 @@
+{
+  "name": "Dhanya Bakers",
+  "description": "Dhanya Bakers — Made Just for Your Craving. Handcrafted celebration cakes, gourmet cupcakes, butter cookies, fresh artisan breads, and bespoke bakery delicacies with transparent pricing and custom weight discounts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
