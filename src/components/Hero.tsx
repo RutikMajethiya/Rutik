@@ -40,7 +40,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             <p className="text-base sm:text-lg text-[#532E1C]/80 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Every celebration deserves a masterpiece. From bespoke layered cakes with progressive weight savings to ₹50 gourmet cupcakes and pure butter artisan breads, we bake every delicacy fresh to your craving.
+              Every celebration deserves a masterpiece. From bespoke layered cakes to gourmet cupcakes and pure butter artisan breads, we bake every delicacy fresh to your craving.
             </p>
 
             {/* Primary Action Buttons */}
@@ -56,7 +56,7 @@ export const Hero: React.FC<HeroProps> = ({
                 onClick={onExploreCupcakes}
                 className="px-5 py-3.5 text-sm font-semibold text-[#532E1C] bg-[#EFE6DC] hover:bg-[#E4D7C8] active:scale-[0.98] rounded-xl transition-all cursor-pointer whitespace-nowrap"
               >
-                Explore Cupcakes (₹50)
+                Explore Cupcakes
               </button>
 
             </div>
@@ -101,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({
                   <Heart className="w-4 h-4 text-[#7A3E26] shrink-0 mt-0.5" />
                   <div>
                     <span className="font-semibold text-[#2C2420]">Tailored Bases & Diet:</span>
-                    <p className="text-[#532E1C]/80 mt-0.5">Choice of Soft Maida, 100% Wheat (+₹50/kg), or pure Farali (+₹100/kg) bases.</p>
+                    <p className="text-[#532E1C]/80 mt-0.5">Choice of Soft Maida, 100% Wheat, or pure Farali bases.</p>
                   </div>
                 </div>
               </div>
