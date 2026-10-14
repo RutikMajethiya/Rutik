@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import { X, Phone, MessageCircle, Trash2, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, Trash2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { CakeOrderItem } from './CakeBuilder';
 import { CupcakeOrderItem } from './CupcakeBuilder';
 import { BreadOrderItem } from './BreadBuilder';
 import { CookieOrderItem } from './CookieBuilder';
 import { BiscuitsOrderItem } from './BiscuitsBuilder';
 import { CustomRequirementItem } from './CustomRequirementBuilder';
-import {
-  BAKERY_NAME,
-  BAKERY_TAGLINE,
-  BAKERY_PHONE_1,
-  BAKERY_PHONE_1_RAW,
-  BAKERY_PHONE_2,
-  BAKERY_PHONE_2_RAW
-} from '../data/bakeryData';
+import { BAKERY_NAME, BAKERY_TAGLINE } from '../data/bakeryData';
 
 export type AnyOrderItem =
   | CakeOrderItem
@@ -38,7 +31,6 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
   onRemoveItem,
   onClearOrder
 }) => {
-  const [selectedWhatsAppNumber, setSelectedWhatsAppNumber] = useState<'phone1' | 'phone2'>('phone1');
   const [customerName, setCustomerName] = useState<string>('');
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerAddress, setCustomerAddress] = useState<string>('');
@@ -69,83 +61,6 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
       hasUnpricedItems = true;
     }
   });
-
-  // Construct structured WhatsApp message
-  const targetPhone = selectedWhatsAppNumber === 'phone1' ? '919328161200' : '919409037507';
-
-  const generateWhatsAppMessage = () => {
-    let msg = `*NEW ORDER ENQUIRY — ${BAKERY_NAME.toUpperCase()}*\n`;
-    msg += `"${BAKERY_TAGLINE}"\n\n`;
-
-    if (customerName) msg += `*Customer:* ${customerName}\n`;
-    if (customerPhone) msg += `*Contact:* ${customerPhone}\n`;
-    if (customerAddress) msg += `*Delivery / Pickup Note:* ${customerAddress}\n`;
-    if (preferredDate) msg += `*Date/Time Needed:* ${preferredDate}\n`;
-    msg += `------------------------------------\n`;
-    msg += `*YOUR DELICACY ORDER BREAKDOWN:*\n\n`;
-
-    orderItems.forEach((item, idx) => {
-      msg += `${idx + 1}. `;
-      if (item.category === 'cake') {
-        msg += `*Cake: ${item.flavour.name}* (${item.weightKg} kg)\n`;
-        msg += `   • Base: ${item.base.name} (+₹${item.baseSurcharge})\n`;
-        msg += `   • Base Price: ₹${item.basePrice}\n`;
-        if (item.discountAmount > 0) {
-          msg += `   • Cake Weight Discount (${Math.round(item.discountRate * 100)}%): -₹${item.discountAmount}\n`;
-        }
-        if (item.message) msg += `   • Message on Cake: "${item.message}"\n`;
-        if (item.occasion) msg += `   • Occasion: ${item.occasion}\n`;
-        msg += `   • Decor: ${item.decorationType}\n`;
-        if (item.customNotes) msg += `   • Notes: ${item.customNotes}\n`;
-        msg += `   • Estimated Item Price: ₹${item.totalPrice}\n\n`;
-      } else if (item.category === 'cupcake') {
-        msg += `*Cupcakes: ${item.flavour.name}* (${item.quantity} pieces)\n`;
-        msg += `   • Rate: ₹${item.unitPrice} each\n`;
-        msg += `   • Decor: ${item.decoration}\n`;
-        msg += `   • Frosting: ${item.frostingPreference}\n`;
-        msg += `   • Packaging: ${item.packaging}\n`;
-        if (item.message) msg += `   • Message/Name: "${item.message}"\n`;
-        if (item.individualDesigns) msg += `   • Individual Designs: ${item.individualDesigns}\n`;
-        msg += `   • Estimated Item Price: ₹${item.totalPrice}\n\n`;
-      } else if (item.category === 'bread') {
-        msg += `*Artisan Bread: ${item.breadType.name}* (${item.quantity} × ${item.weightKg} kg)\n`;
-        msg += `   • Flour Base: ${item.base.name}\n`;
-        msg += `   • Shape: ${item.shape}\n`;
-        if (item.specialRequirements) msg += `   • Notes: ${item.specialRequirements}\n`;
-        msg += `   • Estimated Item Price: ₹${item.totalPrice}\n\n`;
-      } else if (item.category === 'cookie') {
-        msg += `*Cookies: ${item.variety.name}* (${item.weightGrams}g)\n`;
-        msg += `   • Sweetener: ${item.sweetenerType}\n`;
-        if (item.specialNotes) msg += `   • Notes: ${item.specialNotes}\n`;
-        msg += `   • Estimated Item Price: ₹${item.totalPrice}\n\n`;
-      } else if (item.category === 'biscuits') {
-        msg += `*Biscuits: ${item.variety.name}*\n`;
-        msg += `   • Quantity: ${item.quantityBoxes} × ${item.boxSize}\n`;
-        msg += `   • Dietary: ${item.dietaryPreference}\n`;
-        if (item.specialInstructions) msg += `   • Special Instructions: ${item.specialInstructions}\n`;
-        msg += `   • Price: To be confirmed based on requirement\n\n`;
-      } else if (item.category === 'custom') {
-        msg += `*Bespoke Custom Requirement*\n`;
-        msg += `   • Occasion: ${item.occasionType} (${item.guestCount})\n`;
-        msg += `   • Details: ${item.desiredItems}\n`;
-        msg += `   • Dietary: ${item.dietaryPreferences.join(', ')}\n`;
-        if (item.referenceNotes) msg += `   • Notes: ${item.referenceNotes}\n`;
-        msg += `   • Price: To be confirmed based on requirement\n\n`;
-      }
-    });
-
-    msg += `------------------------------------\n`;
-    msg += `*ESTIMATED TOTAL: ₹${calculatedPricedTotal.toLocaleString('en-IN')}*\n`;
-    if (totalSavings > 0) {
-      msg += `*TOTAL SAVINGS: ₹${totalSavings.toLocaleString('en-IN')} (Quantity Discount)*\n`;
-    }
-    if (hasUnpricedItems) {
-      msg += `*Custom / Unpriced items:* Will be confirmed by Dhanya Bakers\n`;
-    }
-    msg += `\nPlease confirm availability and dispatch schedule. Thank you!`;
-
-    return `https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`;
-  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in">
@@ -525,56 +440,9 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
         {orderItems.length > 0 && (
           <div className="p-5 sm:p-6 bg-[#FAF7F2] border-t border-[#E8DCCF] space-y-4">
             
-            {/* Number Selector for WhatsApp & Call */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <span className="font-semibold text-[#2C2420]">
-                Choose Bakery Number to Contact:
-              </span>
-              <div className="flex items-center gap-3">
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="phoneSelect"
-                    checked={selectedWhatsAppNumber === 'phone1'}
-                    onChange={() => setSelectedWhatsAppNumber('phone1')}
-                    className="accent-[#7A3E26]"
-                  />
-                  <span className="font-medium text-[#2C2420]">{BAKERY_PHONE_1}</span>
-                </label>
-
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="phoneSelect"
-                    checked={selectedWhatsAppNumber === 'phone2'}
-                    onChange={() => setSelectedWhatsAppNumber('phone2')}
-                    className="accent-[#7A3E26]"
-                  />
-                  <span className="font-medium text-[#2C2420]">{BAKERY_PHONE_2}</span>
-                </label>
-              </div>
-            </div>
-
-            {/* Action Buttons: WhatsApp Us & Call Dhanya Bakers */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a
-                href={generateWhatsAppMessage()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="py-3.5 px-4 text-xs sm:text-sm font-semibold text-white bg-[#1F5E3B] hover:bg-[#18492E] active:scale-[0.98] rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>WhatsApp Us</span>
-              </a>
-
-              <a
-                href={`tel:${selectedWhatsAppNumber === 'phone1' ? BAKERY_PHONE_1_RAW : BAKERY_PHONE_2_RAW}`}
-                className="py-3.5 px-4 text-xs sm:text-sm font-semibold text-[#532E1C] bg-white hover:bg-[#F2ECE4] border border-[#E8DCCF] active:scale-[0.98] rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Phone className="w-4 h-4 text-[#7A3E26]" />
-                <span>Call Dhanya Bakers</span>
-              </a>
-            </div>
+            <p className="text-xs text-[#532E1C]/75 text-center">
+            Bakery contact details are not published in this app. Please keep your order summary available for follow-up through your usual channel.
+          </p>
 
           </div>
         )}
