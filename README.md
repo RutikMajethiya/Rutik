@@ -36,10 +36,6 @@ Prices and discount calculations should be confirmed by the bakery before an ord
 
 The flavour list can be expanded as the menu is finalized.
 
-## Contact
-
-- +91 93281 61200
-- +91 94090 37507
 
 ## Development Status
 
