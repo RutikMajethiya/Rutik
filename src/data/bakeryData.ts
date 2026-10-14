@@ -50,11 +50,7 @@ export interface BiscuitVariety {
   description: string;
 }
 
-// 1. Official Bakery Contacts (Do not invent any other details)
-export const BAKERY_PHONE_1 = "+91 93281 61200";
-export const BAKERY_PHONE_1_RAW = "+919328161200";
-export const BAKERY_PHONE_2 = "+91 94090 37507";
-export const BAKERY_PHONE_2_RAW = "+919409037507";
+// 1. Bakery contact details are intentionally not published in this repository.
 
 export const BAKERY_NAME = "Dhanya Bakers";
 export const BAKERY_TAGLINE = "Made Just for Your Craving.";
