@@ -1,13 +1,6 @@
 import React from 'react';
-import { Phone, MessageCircle, Sparkles, Award, ShieldCheck, Heart } from 'lucide-react';
-import {
-  BAKERY_NAME,
-  BAKERY_TAGLINE,
-  BAKERY_PHONE_1,
-  BAKERY_PHONE_1_RAW,
-  BAKERY_PHONE_2,
-  BAKERY_PHONE_2_RAW
-} from '../data/bakeryData';
+import { Sparkles, Award, ShieldCheck, Heart } from 'lucide-react';
+import { BAKERY_NAME, BAKERY_TAGLINE } from '../data/bakeryData';
 
 interface HeroProps {
   onExploreCakes: () => void;
@@ -20,10 +13,6 @@ export const Hero: React.FC<HeroProps> = ({
   onExploreCupcakes,
   onSelectCategory
 }) => {
-  const whatsappUrl = `https://wa.me/919328161200?text=${encodeURIComponent(
-    'Hello Dhanya Bakers! I would like to enquire about ordering from your bakery.'
-  )}`;
-
   return (
     <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-16 border-b border-[#E8DCCF]/80">
       {/* Subtle warm background elements */}
@@ -70,35 +59,6 @@ export const Hero: React.FC<HeroProps> = ({
                 Explore Cupcakes (₹50)
               </button>
 
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 text-sm font-semibold text-[#1F5E3B] bg-[#E2F2E7] hover:bg-[#D4EBDC] active:scale-[0.98] rounded-xl transition-all whitespace-nowrap"
-              >
-                <MessageCircle className="w-4 h-4 fill-[#1F5E3B]" />
-                <span>WhatsApp Us</span>
-              </a>
-            </div>
-
-            {/* Quick Contact Numbers (Official) */}
-            <div className="pt-2 text-xs text-[#532E1C]/80 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-              <span className="font-semibold text-[#2C2420]">Direct Orders & Enquiries:</span>
-              <a
-                href={`tel:${BAKERY_PHONE_1_RAW}`}
-                className="inline-flex items-center gap-1.5 font-medium text-[#7A3E26] hover:underline"
-              >
-                <Phone className="w-3.5 h-3.5" />
-                <span>{BAKERY_PHONE_1}</span>
-              </a>
-              <span className="text-[#C5B4A2]">·</span>
-              <a
-                href={`tel:${BAKERY_PHONE_2_RAW}`}
-                className="inline-flex items-center gap-1.5 font-medium text-[#7A3E26] hover:underline"
-              >
-                <Phone className="w-3.5 h-3.5" />
-                <span>{BAKERY_PHONE_2}</span>
-              </a>
             </div>
 
           </div>
